@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Kalkulator Harga Produksi Kemasan</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 24px;
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: auto;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 32px;
+      font-size: 22px;
+    }
+
+    h3 {
+      margin-top: 24px;
+      font-size: 17px;
+      color: #374151;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 6px;
+    }
+
+    .desc {
+      color: #555;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+    }
+
+    button {
+      padding: 13px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #374151;
+    }
+
+    button.secondary {
+      background: #2563eb;
+      padding: 9px 14px;
+      font-size: 14px;
+    }
+
+    button.secondary:hover {
+      background: #1d4ed8;
+    }
+
+    button.danger {
+      background: #dc2626;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    button.danger:hover {
+      background: #b91c1c;
+    }
+
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .result-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .card small {
+      display: block;
+      color: #6b7280;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 21px;
+      line-height: 1.25;
+    }
+
+    .card.highlight {
+      background: #ecfdf5;
+      border-color: #86efac;
+    }
+
+    .card.warning {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    .card.blue {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+
+    .card.purple {
+      background: #faf5ff;
+      border-color: #d8b4fe;
+    }
+
+    .card.red {
+      background: #fef2f2;
+      border-color: #fca5a5;
+    }
+
+    .card.final {
+      background: #111827;
+      border-color: #111827;
+      color: #ffffff;
+      grid-column: span 2;
+    }
+
+    .card.final small {
+      color: #d1d5db;
+    }
+
+    .card.final strong {
+      font-size: 28px;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 1050px;
+      height: auto;
+      border: 1px solid #d1d5db;
+      background: white;
+      display: block;
+      margin-top: 12px;
+      border-radius: 10px;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th { background: #f9fafb; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .lain-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .lain-row {
+      display: grid;
+      grid-template-columns: 1fr 180px 60px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .lain-row input {
+      width: 100%;
+    }
+
+    .empty-lain {
+      color: #6b7280;
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    .section-wrap {
+      margin-top: 24px;
+      padding: 18px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .form-grid,
+      .result-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .card.final {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .form-grid,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lain-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .card.final {
+        grid-column: span 1;
+      }
+
+      body { padding: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Kalkulator Harga Produksi Kemasan</h1>
+
+    <p class="desc">
+      Menghitung optimasi potong kertas plano, harga kertas, biaya pond, laminating, foil, biaya one-time (pelat, tinta, lain-lain),
+      lalu menghasilkan <b>Total Biaya Produksi</b> dan <b>Harga Modal per Potong</b>.
+    </p>
+
+    <h3>A. Dimensi & Order</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Panjang Plano (cm)</label>
+        <input type="number" id="panjangPlano" value="109" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Lebar Plano (cm)</label>
+        <input type="number" id="lebarPlano" value="79" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Panjang Ukuran Jadi (cm)</label>
+        <input type="number" id="panjangPotong" value="43.5" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Lebar Ukuran Jadi (cm)</label>
+        <input type="number" id="lebarPotong" value="30.2" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Margin Kiri</label>
+        <input type="number" id="marginKiri" value="0" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Margin Kanan</label>
+        <input type="number" id="marginKanan" value="0" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Margin Atas</label>
+        <input type="number" id="marginAtas" value="0" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Margin Bawah</label>
+        <input type="number" id="marginBawah" value="0" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Gap Antar Potongan</label>
+        <input type="number" id="gap" value="0" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Jumlah Order (pcs)</label>
+        <input type="number" id="jumlahOrder" value="1000" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>GSM Kertas</label>
+        <input type="number" id="gsm" value="210" step="1">
+      </div>
+    </div>
+
+    <h3>B. Harga Kertas</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Metode Harga Kertas</label>
+        <select id="metodeHargaKertas">
+          <option value="rim">Per Rim</option>
+          <option value="kg" selected>Per Kg</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Harga Kertas per Rim</label>
+        <input type="number" id="hargaKertasRim" value="0" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>Harga Kertas per Kg</label>
+        <input type="number" id="hargaPerKg" value="12700" step="1">
+      </div>
+    </div>
+
+    <h3>C. Finishing per Plano</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Jenis Laminating</label>
+        <select id="jenisLaminating">
+          <option value="none">Tanpa Laminating</option>
+          <option value="glossy">Glossy - 0.18 / cm²</option>
+          <option value="doff" selected>Doff - 0.21 / cm²</option>
+          <option value="softtouch">Softtouch - 0.5 / cm²</option>
+          <option value="holo">Holo - 0.5 / cm²</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Parameter Foil</label>
+        <select id="paramFoil">
+          <option value="0">Tanpa Foil</option>
+          <option value="1.7">Foil 1.7</option>
+          <option value="2.5">Foil 2.5</option>
+          <option value="3.5">Foil 3.5</option>
+          <option value="4">Foil 4</option>
+        </select>
+      </div>
+    </div>
+
+    <h3>D. Biaya Pelat (One-Time) — Offset Konvensional</h3>
+    <p class="desc" style="margin-bottom: 12px;">
+      Rumus: <b>jumlah pelat = jumlah warna × jumlah desain</b>. 1 warna = 1 pelat di mesin offset konvensional.
+    </p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Jumlah Warna</label>
+        <select id="jumlahWarna">
+          <option value="1">1 Warna (BW)</option>
+          <option value="2">2 Warna</option>
+          <option value="4" selected>4 Warna (CMYK / Full Color)</option>
+          <option value="5">5 Warna (CMYK + 1 Spot)</option>
+          <option value="6">6 Warna (CMYK + 2 Spot)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Harga per Pelat (Rp)</label>
+        <input type="number" id="hargaPerPelat" value="50000" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>Jumlah Desain / Versi</label>
+        <input type="number" id="jumlahDesain" value="1" step="1" min="1">
+      </div>
+    </div>
+
+    <h3>E. Biaya Tinta (One-Time) — Offset Konvensional</h3>
+    <p class="desc" style="margin-bottom: 12px;">
+      Rumus: <b>konsumsi tinta (kg) = (luas total cetak m² × coverage%) ÷ daya tutup tinta</b>.
+      Default coverage 30%, daya tutup 100 m²/kg. Sesuaikan dengan jenis pekerjaan.
+    </p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Harga Tinta per Kg (Rp)</label>
+        <input type="number" id="hargaTintaPerKg" value="100000" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>Coverage Tinta (%)</label>
+        <input type="number" id="coverageTinta" value="30" step="1" min="0" max="100">
+      </div>
+
+      <div class="form-group">
+        <label>Daya Tutup Tinta (m²/kg)</label>
+        <input type="number" id="dayaTutupTinta" value="100" step="1" min="1">
+      </div>
+    </div>
+
+    <h3>F. Biaya Lain-Lain (One-Time)</h3>
+    <div class="section-wrap">
+      <p class="desc" style="margin: 0 0 8px 0;">
+        Tambahkan biaya tambahan apapun (setup mesin, desain, packing, dll.) yang dibebankan sekali ke total produksi.
+      </p>
+      <div id="lainContainer" class="lain-list"></div>
+      <button type="button" class="secondary" style="margin-top: 12px;" onclick="tambahBiayaLain()">+ Tambah Biaya Lain</button>
+    </div>
+
+    <div class="actions">
+      <button onclick="hitungOptimasi()">Hitung Harga Produksi</button>
+    </div>
+
+    <h2>Ringkasan Akhir</h2>
+    <div class="result-grid" id="ringkasanAkhir"></div>
+
+    <h2>Detail Layout & Plano</h2>
+    <div class="result-grid" id="hasilLayout"></div>
+
+    <h2>Rincian Biaya per Plano</h2>
+    <div class="result-grid" id="hasilPerPlano"></div>
+
+    <h2>Rincian Biaya One-Time</h2>
+    <div class="result-grid" id="hasilOneTime"></div>
+
+    <h2>Visual Layout Potong</h2>
+    <canvas id="canvas" width="1050" height="700"></canvas>
+
+    <h2>Detail Blok Potongan</h2>
+    <div class="table-wrap" id="detailBlok"></div>
+
+    <div class="note">
+      <b>Logika Perhitungan:</b><br>
+      1. <b>Biaya per Plano</b> = harga kertas + harga pond + harga laminating + harga foil.<br>
+      2. <b>Subtotal Plano-Based</b> = biaya per plano × plano produksi (sudah termasuk waste 5%).<br>
+      3. <b>Biaya Pelat</b> = jumlah warna × jumlah desain × harga per pelat.<br>
+      4. <b>Biaya Tinta</b> = ((luas plano m² × plano produksi × jumlah warna) × coverage%) ÷ daya tutup tinta × harga tinta/kg.<br>
+      5. <b>Total Biaya One-Time</b> = biaya pelat + biaya tinta + (semua biaya lain-lain).<br>
+      6. <b>Total Biaya Produksi</b> = Subtotal Plano-Based + Total Biaya One-Time.<br>
+      7. <b>Harga Modal per Potong</b> = Total Biaya Produksi ÷ Jumlah Order.
+    </div>
+  </div>
+
+  <script>
+    function ambilNilai(id) {
+      return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function formatAngka(value) {
+      return Number(value).toLocaleString("id-ID", {
+        maximumFractionDigits: 2
+      });
+    }
+
+    function formatRupiah(value) {
+      return "Rp " + Number(value).toLocaleString("id-ID", {
+        maximumFractionDigits: 0
+      });
+    }
+
+    function countFit(totalRuang, ukuranItem, gap) {
+      if (totalRuang <= 0 || ukuranItem <= 0) return 0;
+      return Math.floor((totalRuang + gap) / (ukuranItem + gap));
+    }
+
+    function usedSize(jumlah, ukuranItem, gap) {
+      if (jumlah <= 0) return 0;
+      return jumlah * ukuranItem + (jumlah - 1) * gap;
+    }
+
+    function hitungBeratGramCustom(panjang, lebar, gsm) {
+      return (panjang * lebar * gsm) / 20000;
+    }
+
+    function hitungHargaKertas(params) {
+      const metodeHargaKertas = params.metodeHargaKertas;
+      const hargaKertasRim = params.hargaKertasRim;
+      const hargaPerKg = params.hargaPerKg;
+      const panjangPlano = params.panjangPlano;
+      const lebarPlano = params.lebarPlano;
+      const gsm = params.gsm;
+
+      const beratPlanoGram = hitungBeratGramCustom(panjangPlano, lebarPlano, gsm);
+
+      let hargaKertasPlano = 0;
+
+      if (metodeHargaKertas === "rim") {
+        hargaKertasPlano = hargaKertasRim / 500;
+      } else if (metodeHargaKertas === "kg") {
+        const panjangMeter = panjangPlano / 100;
+        const lebarMeter = lebarPlano / 100;
+        const beratPlanoKg = panjangMeter * lebarMeter * (gsm / 1000);
+        hargaKertasPlano = beratPlanoKg * hargaPerKg;
+      }
+
+      return {
+        metodeHargaKertas,
+        hargaKertasRim,
+        hargaPerKg,
+        gsm,
+        beratPlanoGram,
+        hargaKertasPlano
+      };
+    }
+
+    function tentukanHargaDariGSM(gsm) {
+      if (gsm >= 30 && gsm <= 190) return 100;
+      if (gsm >= 191 && gsm <= 300) return 200;
+      if (gsm >= 301 && gsm <= 400) return 300;
+      if (gsm > 400) return 300;
+      return 0;
+    }
+
+    function tentukanHargaDariUkuranPlano(panjangPlano, lebarPlano) {
+      const ukuranKategori = Math.min(panjangPlano, lebarPlano);
+
+      if (ukuranKategori <= 65) return 100;
+      if (ukuranKategori <= 79) return 200;
+      if (ukuranKategori <= 90) return 300;
+
+      return 300;
+    }
+
+    function hitungHargaPond(params) {
+      const panjangPlano = params.panjangPlano;
+      const lebarPlano = params.lebarPlano;
+      const gsm = params.gsm;
+      const jumlahPlanoDibutuhkan = params.jumlahPlanoDibutuhkan;
+
+      const hargaDariGSM = tentukanHargaDariGSM(gsm);
+      const hargaDariUkuran = tentukanHargaDariUkuranPlano(panjangPlano, lebarPlano);
+      const hargaPondFinal = Math.max(hargaDariGSM, hargaDariUkuran);
+
+      const ukuranKategoriPlano = Math.min(panjangPlano, lebarPlano);
+      const luasPlano = panjangPlano * lebarPlano;
+
+      const hargaPondPerPlano = hargaPondFinal;
+      const totalHargaPond = hargaPondPerPlano * jumlahPlanoDibutuhkan;
+
+      return {
+        gsm,
+        ukuranKategoriPlano,
+        luasPlano,
+        hargaDariGSM,
+        hargaDariUkuran,
+        hargaPondFinal,
+        hargaPondPerPlano,
+        totalHargaPond
+      };
+    }
+
+    function getHargaLaminatingPerCm(jenisLaminating) {
+      const harga = {
+        none: 0,
+        glossy: 0.18,
+        doff: 0.21,
+        softtouch: 0.5,
+        holo: 0.5
+      };
+
+      return harga[jenisLaminating] || 0;
+    }
+
+    function namaLaminating(jenisLaminating) {
+      const nama = {
+        none: "Tanpa Laminating",
+        glossy: "Glossy",
+        doff: "Doff",
+        softtouch: "Softtouch",
+        holo: "Holo"
+      };
+
+      return nama[jenisLaminating] || "Tanpa Laminating";
+    }
+
+    function hitungHargaLaminating(params) {
+      const panjangPlano = params.panjangPlano;
+      const lebarPlano = params.lebarPlano;
+      const jenisLaminating = params.jenisLaminating;
+      const jumlahPlanoDibutuhkan = params.jumlahPlanoDibutuhkan;
+
+      const luasPlano = panjangPlano * lebarPlano;
+      const hargaPerCm = getHargaLaminatingPerCm(jenisLaminating);
+
+      const hargaLaminatingPerPlano = luasPlano * hargaPerCm;
+      const totalHargaLaminating = hargaLaminatingPerPlano * jumlahPlanoDibutuhkan;
+
+      return {
+        jenisLaminating,
+        namaLaminating: namaLaminating(jenisLaminating),
+        luasPlano,
+        hargaPerCm,
+        hargaLaminatingPerPlano,
+        totalHargaLaminating
+      };
+    }
+
+    function hitungHargaFoil(params) {
+      const panjangPlano = params.panjangPlano;
+      const lebarPlano = params.lebarPlano;
+      const paramFoil = params.paramFoil;
+      const jumlahPlanoDibutuhkan = params.jumlahPlanoDibutuhkan;
+
+      const panjangHitungFoil = panjangPlano + 2;
+      const lebarHitungFoil = lebarPlano + 2;
+
+      let hargaFoilPerPlano = 0;
+      let totalHargaFoil = 0;
+
+      if (paramFoil > 0) {
+        hargaFoilPerPlano = panjangHitungFoil * lebarHitungFoil * paramFoil;
+        totalHargaFoil = hargaFoilPerPlano * jumlahPlanoDibutuhkan;
+      }
+
+      return {
+        panjangPlano,
+        lebarPlano,
+        panjangHitungFoil,
+        lebarHitungFoil,
+        paramFoil,
+        hargaFoilPerPlano,
+        totalHargaFoil
+      };
+    }
+
+    function tambahLayout(layouts, layout) {
+      const totalPotong = layout.blocks.reduce((sum, block) => sum + block.count, 0);
+
+      if (totalPotong <= 0) return;
+
+      const areaPlanoUtuh = layout.planoWidth * layout.planoHeight;
+      const areaEfektif = layout.areaWidth * layout.areaHeight;
+      const areaSatuPotong = layout.originalItemW * layout.originalItemH;
+      const areaTerpakai = totalPotong * areaSatuPotong;
+
+      const areaSisaEfektif = areaEfektif - areaTerpakai;
+      const areaSisaTotal = areaPlanoUtuh - areaTerpakai;
+
+      const persenTerpakaiEfektif = areaEfektif > 0 ? (areaTerpakai / areaEfektif) * 100 : 0;
+      const persenSisaEfektif = areaEfektif > 0 ? (areaSisaEfektif / areaEfektif) * 100 : 100;
+
+      const persenTerpakaiTotal = areaPlanoUtuh > 0 ? (areaTerpakai / areaPlanoUtuh) * 100 : 0;
+      const persenSisaTotal = areaPlanoUtuh > 0 ? (areaSisaTotal / areaPlanoUtuh) * 100 : 100;
+
+      layouts.push({
+        ...layout,
+        totalPotong,
+        areaPlanoUtuh,
+        areaEfektif,
+        areaSatuPotong,
+        areaTerpakai,
+        areaSisaEfektif,
+        areaSisaTotal,
+        persenTerpakaiEfektif,
+        persenSisaEfektif,
+        persenTerpakaiTotal,
+        persenSisaTotal,
+        areaSisa: areaSisaTotal,
+        persenSisa: persenSisaTotal,
+        persenTerpakai: persenTerpakaiTotal
+      });
+    }
+
+    function buatUniformLayout(W, H, itemW, itemH, gap, originalItemW, originalItemH, orientasi, planoWidth, planoHeight) {
+      const kolom = countFit(W, itemW, gap);
+      const baris = countFit(H, itemH, gap);
+      const count = kolom * baris;
+
+      return {
+        name: "Uniform " + orientasi,
+        type: "uniform",
+        planoWidth,
+        planoHeight,
+        areaWidth: W,
+        areaHeight: H,
+        originalItemW,
+        originalItemH,
+        blocks: [
+          {
+            label: orientasi,
+            orientation: orientasi,
+            x: 0,
+            y: 0,
+            w: itemW,
+            h: itemH,
+            cols: kolom,
+            rows: baris,
+            count: count,
+            regionW: usedSize(kolom, itemW, gap),
+            regionH: usedSize(baris, itemH, gap)
+          }
+        ]
+      };
+    }
+
+    function buatMixedLayouts(W, H, itemW, itemH, gap, planoWidth, planoHeight) {
+      const layouts = [];
+
+      const orientations = [
+        { label: "Horizontal", w: itemW, h: itemH },
+        { label: "Vertikal", w: itemH, h: itemW }
+      ];
+
+      const originalItemW = itemW;
+      const originalItemH = itemH;
+
+      orientations.forEach(main => {
+        const secondary = main.label === "Horizontal" ? orientations[1] : orientations[0];
+
+        const maxMainCols = countFit(W, main.w, gap);
+        const maxMainRows = countFit(H, main.h, gap);
+
+        for (let mainCols = 0; mainCols <= maxMainCols; mainCols++) {
+          for (let mainRows = 0; mainRows <= maxMainRows; mainRows++) {
+            const mainCount = mainCols * mainRows;
+            if (mainCount <= 0) continue;
+
+            const mainUsedW = usedSize(mainCols, main.w, gap);
+            const mainUsedH = usedSize(mainRows, main.h, gap);
+
+            const blocksA = [];
+
+            blocksA.push({
+              label: "Area utama",
+              orientation: main.label,
+              x: 0,
+              y: 0,
+              w: main.w,
+              h: main.h,
+              cols: mainCols,
+              rows: mainRows,
+              count: mainCount,
+              regionW: mainUsedW,
+              regionH: mainUsedH
+            });
+
+            const rightX = mainUsedW + gap;
+            const rightY = 0;
+            const rightW = W - rightX;
+            const rightH = mainUsedH;
+
+            if (rightW > 0 && rightH > 0) {
+              const rightCols = countFit(rightW, secondary.w, gap);
+              const rightRows = countFit(rightH, secondary.h, gap);
+              const rightCount = rightCols * rightRows;
+
+              if (rightCount > 0) {
+                blocksA.push({
+                  label: "Sisa kanan",
+                  orientation: secondary.label,
+                  x: rightX,
+                  y: rightY,
+                  w: secondary.w,
+                  h: secondary.h,
+                  cols: rightCols,
+                  rows: rightRows,
+                  count: rightCount,
+                  regionW: usedSize(rightCols, secondary.w, gap),
+                  regionH: usedSize(rightRows, secondary.h, gap)
+                });
+              }
+            }
+
+            const bottomX = 0;
+            const bottomY = mainUsedH + gap;
+            const bottomW = W;
+            const bottomH = H - bottomY;
+
+            if (bottomW > 0 && bottomH > 0) {
+              const bottomCols = countFit(bottomW, secondary.w, gap);
+              const bottomRows = countFit(bottomH, secondary.h, gap);
+              const bottomCount = bottomCols * bottomRows;
+
+              if (bottomCount > 0) {
+                blocksA.push({
+                  label: "Sisa bawah",
+                  orientation: secondary.label,
+                  x: bottomX,
+                  y: bottomY,
+                  w: secondary.w,
+                  h: secondary.h,
+                  cols: bottomCols,
+                  rows: bottomRows,
+                  count: bottomCount,
+                  regionW: usedSize(bottomCols, secondary.w, gap),
+                  regionH: usedSize(bottomRows, secondary.h, gap)
+                });
+              }
+            }
+
+            tambahLayout(layouts, {
+              name: "Mixed A: utama " + main.label + ", sisa " + secondary.label,
+              type: "mixed",
+              planoWidth,
+              planoHeight,
+              areaWidth: W,
+              areaHeight: H,
+              originalItemW,
+              originalItemH,
+              blocks: blocksA
+            });
+
+            const blocksB = [];
+
+            blocksB.push({
+              label: "Area utama",
+              orientation: main.label,
+              x: 0,
+              y: 0,
+              w: main.w,
+              h: main.h,
+              cols: mainCols,
+              rows: mainRows,
+              count: mainCount,
+              regionW: mainUsedW,
+              regionH: mainUsedH
+            });
+
+            const rightXAlt = mainUsedW + gap;
+            const rightYAlt = 0;
+            const rightWAlt = W - rightXAlt;
+            const rightHAlt = H;
+
+            if (rightWAlt > 0 && rightHAlt > 0) {
+              const rightColsAlt = countFit(rightWAlt, secondary.w, gap);
+              const rightRowsAlt = countFit(rightHAlt, secondary.h, gap);
+              const rightCountAlt = rightColsAlt * rightRowsAlt;
+
+              if (rightCountAlt > 0) {
+                blocksB.push({
+                  label: "Sisa kanan penuh",
+                  orientation: secondary.label,
+                  x: rightXAlt,
+                  y: rightYAlt,
+                  w: secondary.w,
+                  h: secondary.h,
+                  cols: rightColsAlt,
+                  rows: rightRowsAlt,
+                  count: rightCountAlt,
+                  regionW: usedSize(rightColsAlt, secondary.w, gap),
+                  regionH: usedSize(rightRowsAlt, secondary.h, gap)
+                });
+              }
+            }
+
+            const bottomXAlt = 0;
+            const bottomYAlt = mainUsedH + gap;
+            const bottomWAlt = mainUsedW;
+            const bottomHAlt = H - bottomYAlt;
+
+            if (bottomWAlt > 0 && bottomHAlt > 0) {
+              const bottomColsAlt = countFit(bottomWAlt, secondary.w, gap);
+              const bottomRowsAlt = countFit(bottomHAlt, secondary.h, gap);
+              const bottomCountAlt = bottomColsAlt * bottomRowsAlt;
+
+              if (bottomCountAlt > 0) {
+                blocksB.push({
+                  label: "Sisa bawah utama",
+                  orientation: secondary.label,
+                  x: bottomXAlt,
+                  y: bottomYAlt,
+                  w: secondary.w,
+                  h: secondary.h,
+                  cols: bottomColsAlt,
+                  rows: bottomRowsAlt,
+                  count: bottomCountAlt,
+                  regionW: usedSize(bottomColsAlt, secondary.w, gap),
+                  regionH: usedSize(bottomRowsAlt, secondary.h, gap)
+                });
+              }
+            }
+
+            tambahLayout(layouts, {
+              name: "Mixed B: utama " + main.label + ", sisa " + secondary.label,
+              type: "mixed",
+              planoWidth,
+              planoHeight,
+              areaWidth: W,
+              areaHeight: H,
+              originalItemW,
+              originalItemH,
+              blocks: blocksB
+            });
+          }
+        }
+      });
+
+      return layouts;
+    }
+
+    function cariLayoutTerbaik(W, H, itemW, itemH, gap, planoWidth, planoHeight) {
+      const layouts = [];
+
+      tambahLayout(
+        layouts,
+        buatUniformLayout(W, H, itemW, itemH, gap, itemW, itemH, "Horizontal", planoWidth, planoHeight)
+      );
+
+      tambahLayout(
+        layouts,
+        buatUniformLayout(W, H, itemH, itemW, gap, itemW, itemH, "Vertikal", planoWidth, planoHeight)
+      );
+
+      const mixedLayouts = buatMixedLayouts(W, H, itemW, itemH, gap, planoWidth, planoHeight);
+      mixedLayouts.forEach(layout => layouts.push(layout));
+
+      layouts.sort((a, b) => {
+        if (b.totalPotong !== a.totalPotong) return b.totalPotong - a.totalPotong;
+        if (a.persenSisaTotal !== b.persenSisaTotal) return a.persenSisaTotal - b.persenSisaTotal;
+        return a.blocks.length - b.blocks.length;
+      });
+
+      return layouts[0];
+    }
+
+    function ringkasKomposisi(layout) {
+      let horizontal = 0;
+      let vertikal = 0;
+
+      layout.blocks.forEach(block => {
+        if (block.orientation === "Horizontal") horizontal += block.count;
+        if (block.orientation === "Vertikal") vertikal += block.count;
+      });
+
+      return horizontal + " horizontal + " + vertikal + " vertikal";
+    }
+
+    let biayaLainCounter = 0;
+
+    function tambahBiayaLain(label, nominal) {
+      biayaLainCounter++;
+      const id = biayaLainCounter;
+
+      const container = document.getElementById("lainContainer");
+      const row = document.createElement("div");
+      row.className = "lain-row";
+      row.id = "lainRow_" + id;
+
+      row.innerHTML = `
+        <input type="text" placeholder="Label biaya (mis. setup mesin)" value="${label || ""}" data-role="label">
+        <input type="number" placeholder="Nominal (Rp)" value="${nominal || 0}" step="1" data-role="nominal">
+        <button type="button" class="danger" onclick="hapusBiayaLain(${id})">Hapus</button>
+      `;
+
+      container.appendChild(row);
+      updateEmptyHint();
+    }
+
+    function hapusBiayaLain(id) {
+      const row = document.getElementById("lainRow_" + id);
+      if (row) row.remove();
+      updateEmptyHint();
+    }
+
+    function updateEmptyHint() {
+      const container = document.getElementById("lainContainer");
+      const existingHint = container.querySelector(".empty-lain");
+
+      if (container.querySelectorAll(".lain-row").length === 0) {
+        if (!existingHint) {
+          const hint = document.createElement("div");
+          hint.className = "empty-lain";
+          hint.textContent = "Belum ada biaya lain-lain. Klik tombol di bawah untuk menambah.";
+          container.appendChild(hint);
+        }
+      } else if (existingHint) {
+        existingHint.remove();
+      }
+    }
+
+    function bacaBiayaLainLain() {
+      const rows = document.querySelectorAll("#lainContainer .lain-row");
+      const items = [];
+
+      rows.forEach(row => {
+        const labelInput = row.querySelector('input[data-role="label"]');
+        const nominalInput = row.querySelector('input[data-role="nominal"]');
+
+        const label = (labelInput?.value || "").trim() || "(tanpa label)";
+        const nominal = parseFloat(nominalInput?.value) || 0;
+
+        if (nominal !== 0 || labelInput?.value) {
+          items.push({ label, nominal });
+        }
+      });
+
+      const total = items.reduce((sum, item) => sum + item.nominal, 0);
+
+      return { items, total };
+    }
+
+    function hitungBiayaPelat(params) {
+      const jumlahWarna = params.jumlahWarna;
+      const jumlahDesain = params.jumlahDesain;
+      const hargaPerPelat = params.hargaPerPelat;
+
+      const jumlahPelat = jumlahWarna * jumlahDesain;
+      const totalBiayaPelat = jumlahPelat * hargaPerPelat;
+
+      return {
+        jumlahWarna,
+        jumlahDesain,
+        hargaPerPelat,
+        jumlahPelat,
+        totalBiayaPelat
+      };
+    }
+
+    function hitungBiayaTinta(params) {
+      const panjangPlano = params.panjangPlano;
+      const lebarPlano = params.lebarPlano;
+      const planoProduksi = params.planoProduksi;
+      const jumlahWarna = params.jumlahWarna;
+      const coverageTinta = params.coverageTinta;
+      const dayaTutupTinta = params.dayaTutupTinta;
+      const hargaTintaPerKg = params.hargaTintaPerKg;
+
+      const luasPlanoM2 = (panjangPlano * lebarPlano) / 10000;
+      const luasTotalCetakM2 = luasPlanoM2 * planoProduksi * jumlahWarna;
+
+      const konsumsiTintaKg = dayaTutupTinta > 0
+        ? (luasTotalCetakM2 * coverageTinta / 100) / dayaTutupTinta
+        : 0;
+
+      const konsumsiTintaPerWarnaKg = jumlahWarna > 0
+        ? konsumsiTintaKg / jumlahWarna
+        : 0;
+
+      const totalBiayaTinta = konsumsiTintaKg * hargaTintaPerKg;
+
+      return {
+        luasPlanoM2,
+        luasTotalCetakM2,
+        jumlahWarna,
+        coverageTinta,
+        dayaTutupTinta,
+        hargaTintaPerKg,
+        konsumsiTintaPerWarnaKg,
+        konsumsiTintaKg,
+        totalBiayaTinta
+      };
+    }
+
+    function hitungOptimasi() {
+      const panjangPlano = ambilNilai("panjangPlano");
+      const lebarPlano = ambilNilai("lebarPlano");
+      const panjangPotong = ambilNilai("panjangPotong");
+      const lebarPotong = ambilNilai("lebarPotong");
+
+      const marginKiri = ambilNilai("marginKiri");
+      const marginKanan = ambilNilai("marginKanan");
+      const marginAtas = ambilNilai("marginAtas");
+      const marginBawah = ambilNilai("marginBawah");
+
+      const gap = ambilNilai("gap");
+      const jumlahOrder = ambilNilai("jumlahOrder");
+      const gsm = ambilNilai("gsm");
+
+      const metodeHargaKertas = document.getElementById("metodeHargaKertas").value;
+      const hargaKertasRim = ambilNilai("hargaKertasRim");
+      const hargaPerKg = ambilNilai("hargaPerKg");
+
+      const jenisLaminating = document.getElementById("jenisLaminating").value;
+      const paramFoil = ambilNilai("paramFoil");
+
+      const jumlahWarna = ambilNilai("jumlahWarna");
+      const hargaPerPelat = ambilNilai("hargaPerPelat");
+      const jumlahDesain = ambilNilai("jumlahDesain") || 1;
+
+      const hargaTintaPerKg = ambilNilai("hargaTintaPerKg");
+      const coverageTinta = ambilNilai("coverageTinta");
+      const dayaTutupTinta = ambilNilai("dayaTutupTinta");
+
+      const biayaLain = bacaBiayaLainLain();
+
+      if (panjangPlano <= 0 || lebarPlano <= 0 || panjangPotong <= 0 || lebarPotong <= 0) {
+        alert("Ukuran plano dan ukuran potong harus lebih dari 0.");
+        return;
+      }
+
+      if (gap < 0) {
+        alert("Gap tidak boleh negatif.");
+        return;
+      }
+
+      if (marginKiri < 0 || marginKanan < 0 || marginAtas < 0 || marginBawah < 0) {
+        alert("Margin tidak boleh negatif.");
+        return;
+      }
+
+      if (gsm <= 0) {
+        alert("GSM harus lebih dari 0.");
+        return;
+      }
+
+      if (jumlahOrder <= 0) {
+        alert("Jumlah order harus lebih dari 0.");
+        return;
+      }
+
+      if (metodeHargaKertas === "rim" && hargaKertasRim < 0) {
+        alert("Harga kertas per rim tidak boleh negatif.");
+        return;
+      }
+
+      if (metodeHargaKertas === "kg" && hargaPerKg < 0) {
+        alert("Harga kertas per kg tidak boleh negatif.");
+        return;
+      }
+
+      if (hargaPerPelat < 0 || hargaTintaPerKg < 0) {
+        alert("Harga pelat dan tinta tidak boleh negatif.");
+        return;
+      }
+
+      if (coverageTinta < 0 || coverageTinta > 100) {
+        alert("Coverage tinta harus antara 0% dan 100%.");
+        return;
+      }
+
+      if (dayaTutupTinta <= 0) {
+        alert("Daya tutup tinta harus lebih dari 0.");
+        return;
+      }
+
+      if (jumlahWarna <= 0 || jumlahDesain <= 0) {
+        alert("Jumlah warna dan jumlah desain harus lebih dari 0.");
+        return;
+      }
+
+      const panjangEfektif = panjangPlano - marginKiri - marginKanan;
+      const lebarEfektif = lebarPlano - marginAtas - marginBawah;
+
+      if (panjangEfektif <= 0 || lebarEfektif <= 0) {
+        alert("Margin terlalu besar sehingga area efektif tidak valid.");
+        return;
+      }
+
+      const terbaik = cariLayoutTerbaik(
+        panjangEfektif,
+        lebarEfektif,
+        panjangPotong,
+        lebarPotong,
+        gap,
+        panjangPlano,
+        lebarPlano
+      );
+
+      if (!terbaik || terbaik.totalPotong <= 0) {
+        alert("Ukuran potong tidak muat di dalam plano dengan margin tersebut.");
+        return;
+      }
+
+      const planoDibutuhkan = Math.ceil(jumlahOrder / terbaik.totalPotong);
+      const wastePlano = Math.ceil(planoDibutuhkan * 0.05);
+      const planoProduksi = planoDibutuhkan + wastePlano;
+
+      const totalKapasitasTanpaWaste = planoDibutuhkan * terbaik.totalPotong;
+      const totalKapasitas = planoProduksi * terbaik.totalPotong;
+      const sisaProduksi = totalKapasitas - jumlahOrder;
+
+      const hargaKertas = hitungHargaKertas({
+        metodeHargaKertas,
+        hargaKertasRim,
+        hargaPerKg,
+        panjangPlano,
+        lebarPlano,
+        gsm
+      });
+
+      const hargaPond = hitungHargaPond({
+        panjangPlano,
+        lebarPlano,
+        gsm,
+        jumlahPlanoDibutuhkan: planoProduksi
+      });
+
+      const hargaLaminating = hitungHargaLaminating({
+        panjangPlano,
+        lebarPlano,
+        jenisLaminating,
+        jumlahPlanoDibutuhkan: planoProduksi
+      });
+
+      const hargaFoil = hitungHargaFoil({
+        panjangPlano,
+        lebarPlano,
+        paramFoil,
+        jumlahPlanoDibutuhkan: planoProduksi
+      });
+
+      const biayaPerPlano =
+        hargaKertas.hargaKertasPlano +
+        hargaPond.hargaPondPerPlano +
+        hargaLaminating.hargaLaminatingPerPlano +
+        hargaFoil.hargaFoilPerPlano;
+
+      const subtotalPlanoBased = biayaPerPlano * planoProduksi;
+
+      const pelat = hitungBiayaPelat({
+        jumlahWarna,
+        jumlahDesain,
+        hargaPerPelat
+      });
+
+      const tinta = hitungBiayaTinta({
+        panjangPlano,
+        lebarPlano,
+        planoProduksi,
+        jumlahWarna,
+        coverageTinta,
+        dayaTutupTinta,
+        hargaTintaPerKg
+      });
+
+      const totalOneTime = pelat.totalBiayaPelat + tinta.totalBiayaTinta + biayaLain.total;
+
+      const totalBiayaProduksi = subtotalPlanoBased + totalOneTime;
+
+      const hargaPerPotong = jumlahOrder > 0 ? totalBiayaProduksi / jumlahOrder : 0;
+
+      tampilkanRingkasanAkhir({
+        totalBiayaProduksi,
+        hargaPerPotong,
+        jumlahOrder,
+        subtotalPlanoBased,
+        totalOneTime
+      });
+
+      tampilkanLayout({
+        panjangPlano,
+        lebarPlano,
+        panjangEfektif,
+        lebarEfektif,
+        terbaik,
+        jumlahOrder,
+        planoDibutuhkan,
+        wastePlano,
+        planoProduksi,
+        totalKapasitasTanpaWaste,
+        totalKapasitas,
+        sisaProduksi
+      });
+
+      tampilkanPerPlano({
+        hargaKertas,
+        hargaPond,
+        hargaLaminating,
+        hargaFoil,
+        biayaPerPlano,
+        planoProduksi,
+        subtotalPlanoBased
+      });
+
+      tampilkanOneTime({
+        pelat,
+        tinta,
+        biayaLain,
+        totalOneTime
+      });
+
+      tampilkanDetailBlok(terbaik);
+
+      gambarLayout({
+        panjangPlano,
+        lebarPlano,
+        panjangEfektif,
+        lebarEfektif,
+        marginKiri,
+        marginKanan,
+        marginAtas,
+        marginBawah,
+        gap,
+        terbaik
+      });
+    }
+
+    function tampilkanRingkasanAkhir(data) {
+      document.getElementById("ringkasanAkhir").innerHTML = `
+        <div class="card final">
+          <small>TOTAL BIAYA PRODUKSI</small>
+          <strong>${formatRupiah(data.totalBiayaProduksi)}</strong>
+        </div>
+
+        <div class="card final">
+          <small>HARGA MODAL PER POTONG</small>
+          <strong>${formatRupiah(data.hargaPerPotong)}</strong>
+        </div>
+
+        <div class="card highlight">
+          <small>Jumlah Order</small>
+          <strong>${formatAngka(data.jumlahOrder)} pcs</strong>
+        </div>
+
+        <div class="card blue">
+          <small>Subtotal Plano-Based</small>
+          <strong>${formatRupiah(data.subtotalPlanoBased)}</strong>
+        </div>
+
+        <div class="card purple">
+          <small>Total Biaya One-Time</small>
+          <strong>${formatRupiah(data.totalOneTime)}</strong>
+        </div>
+      `;
+    }
+
+    function tampilkanLayout(data) {
+      const t = data.terbaik;
+
+      document.getElementById("hasilLayout").innerHTML = `
+        <div class="card">
+          <small>Potongan per Plano</small>
+          <strong>${formatAngka(t.totalPotong)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Komposisi</small>
+          <strong>${ringkasKomposisi(t)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Jenis Layout</small>
+          <strong>${t.type === "mixed" ? "Campuran" : "Seragam"}</strong>
+        </div>
+
+        <div class="card">
+          <small>Nama Layout</small>
+          <strong>${t.name}</strong>
+        </div>
+
+        <div class="card">
+          <small>Ukuran Plano Utuh</small>
+          <strong>${formatAngka(data.panjangPlano)} × ${formatAngka(data.lebarPlano)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Ukuran Efektif Setelah Margin</small>
+          <strong>${formatAngka(data.panjangEfektif)} × ${formatAngka(data.lebarEfektif)}</strong>
+        </div>
+
+        <div class="card warning">
+          <small>Waste Total / Plano Utuh</small>
+          <strong>${formatAngka(t.persenSisaTotal)}%</strong>
+        </div>
+
+        <div class="card">
+          <small>Waste Area Efektif</small>
+          <strong>${formatAngka(t.persenSisaEfektif)}%</strong>
+        </div>
+
+        <div class="card">
+          <small>Plano Dibutuhkan Order</small>
+          <strong>${formatAngka(data.planoDibutuhkan)}</strong>
+        </div>
+
+        <div class="card warning">
+          <small>Waste Plano 5%</small>
+          <strong>${formatAngka(data.wastePlano)}</strong>
+        </div>
+
+        <div class="card highlight">
+          <small>Plano Produksi + Waste</small>
+          <strong>${formatAngka(data.planoProduksi)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Kapasitas Tanpa Waste</small>
+          <strong>${formatAngka(data.totalKapasitasTanpaWaste)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Total Kapasitas Produksi + Waste</small>
+          <strong>${formatAngka(data.totalKapasitas)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Sisa Produksi</small>
+          <strong>${formatAngka(data.sisaProduksi)}</strong>
+        </div>
+      `;
+    }
+
+    function tampilkanPerPlano(data) {
+      const k = data.hargaKertas;
+      const p = data.hargaPond;
+      const l = data.hargaLaminating;
+      const f = data.hargaFoil;
+
+      document.getElementById("hasilPerPlano").innerHTML = `
+        <div class="card blue">
+          <small>Metode Harga Kertas</small>
+          <strong>${k.metodeHargaKertas === "rim" ? "Per Rim" : "Per Kg"}</strong>
+        </div>
+
+        <div class="card">
+          <small>Berat Plano</small>
+          <strong>${formatAngka(k.beratPlanoGram)} gr</strong>
+        </div>
+
+        <div class="card highlight">
+          <small>Harga Kertas / Plano</small>
+          <strong>${formatRupiah(k.hargaKertasPlano)}</strong>
+        </div>
+
+        <div class="card blue">
+          <small>Harga Pond / Plano</small>
+          <strong>${formatRupiah(p.hargaPondPerPlano)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Jenis Laminating</small>
+          <strong>${l.namaLaminating}</strong>
+        </div>
+
+        <div class="card blue">
+          <small>Harga Laminating / Plano</small>
+          <strong>${formatRupiah(l.hargaLaminatingPerPlano)}</strong>
+        </div>
+
+        <div class="card purple">
+          <small>Parameter Foil</small>
+          <strong>${formatAngka(f.paramFoil)}</strong>
+        </div>
+
+        <div class="card purple">
+          <small>Harga Foil / Plano</small>
+          <strong>${formatRupiah(f.hargaFoilPerPlano)}</strong>
+        </div>
+
+        <div class="card highlight">
+          <small>TOTAL BIAYA / PLANO</small>
+          <strong>${formatRupiah(data.biayaPerPlano)}</strong>
+        </div>
+
+        <div class="card">
+          <small>× Plano Produksi</small>
+          <strong>${formatAngka(data.planoProduksi)}</strong>
+        </div>
+
+        <div class="card highlight">
+          <small>= Subtotal Plano-Based</small>
+          <strong>${formatRupiah(data.subtotalPlanoBased)}</strong>
+        </div>
+      `;
+    }
+
+    function tampilkanOneTime(data) {
+      const p = data.pelat;
+      const t = data.tinta;
+
+      const lainCards = data.biayaLain.items.map(item => `
+        <div class="card">
+          <small>${item.label}</small>
+          <strong>${formatRupiah(item.nominal)}</strong>
+        </div>
+      `).join("");
+
+      document.getElementById("hasilOneTime").innerHTML = `
+        <div class="card">
+          <small>Jumlah Warna × Desain</small>
+          <strong>${formatAngka(p.jumlahWarna)} × ${formatAngka(p.jumlahDesain)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Jumlah Pelat Total</small>
+          <strong>${formatAngka(p.jumlahPelat)} pelat</strong>
+        </div>
+
+        <div class="card">
+          <small>Harga / Pelat</small>
+          <strong>${formatRupiah(p.hargaPerPelat)}</strong>
+        </div>
+
+        <div class="card blue">
+          <small>Total Biaya Pelat</small>
+          <strong>${formatRupiah(p.totalBiayaPelat)}</strong>
+        </div>
+
+        <div class="card">
+          <small>Luas Total Cetak</small>
+          <strong>${formatAngka(t.luasTotalCetakM2)} m²</strong>
+        </div>
+
+        <div class="card">
+          <small>Coverage / Daya Tutup</small>
+          <strong>${formatAngka(t.coverageTinta)}% / ${formatAngka(t.dayaTutupTinta)} m²/kg</strong>
+        </div>
+
+        <div class="card">
+          <small>Konsumsi Tinta / Warna</small>
+          <strong>${formatAngka(t.konsumsiTintaPerWarnaKg)} kg</strong>
+        </div>
+
+        <div class="card">
+          <small>Total Konsumsi Tinta</small>
+          <strong>${formatAngka(t.konsumsiTintaKg)} kg</strong>
+        </div>
+
+        <div class="card blue">
+          <small>Total Biaya Tinta</small>
+          <strong>${formatRupiah(t.totalBiayaTinta)}</strong>
+        </div>
+
+        ${lainCards}
+
+        <div class="card highlight">
+          <small>TOTAL BIAYA ONE-TIME</small>
+          <strong>${formatRupiah(data.totalOneTime)}</strong>
+        </div>
+      `;
+    }
+
+    function tampilkanDetailBlok(layout) {
+      let html = `
+        <table>
+          <thead>
+            <tr>
+              <th>Blok</th>
+              <th>Orientasi</th>
+              <th>Ukuran Dipakai</th>
+              <th>Kolom</th>
+              <th>Baris</th>
+              <th>Total</th>
+              <th>Posisi X</th>
+              <th>Posisi Y</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      layout.blocks.forEach(block => {
+        if (block.count <= 0) return;
+
+        html += `
+          <tr>
+            <td>${block.label}</td>
+            <td><span class="badge">${block.orientation}</span></td>
+            <td>${formatAngka(block.w)} × ${formatAngka(block.h)}</td>
+            <td>${block.cols}</td>
+            <td>${block.rows}</td>
+            <td>${block.count}</td>
+            <td>${formatAngka(block.x)}</td>
+            <td>${formatAngka(block.y)}</td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      document.getElementById("detailBlok").innerHTML = html;
+    }
+
+    function gambarLayout(data) {
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const padding = 55;
+
+      const scaleX = (canvas.width - padding * 2) / data.panjangPlano;
+      const scaleY = (canvas.height - padding * 2) / data.lebarPlano;
+      const scale = Math.min(scaleX, scaleY);
+
+      const planoX = padding;
+      const planoY = padding;
+      const planoW = data.panjangPlano * scale;
+      const planoH = data.lebarPlano * scale;
+
+      const efektifX = planoX + data.marginKiri * scale;
+      const efektifY = planoY + data.marginAtas * scale;
+      const efektifW = data.panjangEfektif * scale;
+      const efektifH = data.lebarEfektif * scale;
+
+      ctx.fillStyle = "#f3f4f6";
+      ctx.fillRect(planoX, planoY, planoW, planoH);
+
+      ctx.strokeStyle = "#111827";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(planoX, planoY, planoW, planoH);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(efektifX, efektifY, efektifW, efektifH);
+
+      ctx.strokeStyle = "#2563eb";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(efektifX, efektifY, efektifW, efektifH);
+
+      data.terbaik.blocks.forEach(block => {
+        if (block.count <= 0) return;
+
+        const blockBaseX = efektifX + block.x * scale;
+        const blockBaseY = efektifY + block.y * scale;
+
+        const itemW = block.w * scale;
+        const itemH = block.h * scale;
+        const gap = data.gap * scale;
+
+        for (let row = 0; row < block.rows; row++) {
+          for (let col = 0; col < block.cols; col++) {
+            const x = blockBaseX + col * (itemW + gap);
+            const y = blockBaseY + row * (itemH + gap);
+
+            if (block.orientation === "Horizontal") {
+              ctx.fillStyle = "#dbeafe";
+              ctx.strokeStyle = "#1d4ed8";
+            } else {
+              ctx.fillStyle = "#dcfce7";
+              ctx.strokeStyle = "#15803d";
+            }
+
+            ctx.fillRect(x, y, itemW, itemH);
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, itemW, itemH);
+
+            ctx.fillStyle = "#111827";
+            ctx.font = "11px Arial";
+            ctx.fillText(
+              block.orientation === "Horizontal" ? "H" : "V",
+              x + 5,
+              y + 14
+            );
+          }
+        }
+
+        ctx.fillStyle = "#374151";
+        ctx.font = "12px Arial";
+        ctx.fillText(
+          block.label + " - " + block.orientation,
+          blockBaseX,
+          blockBaseY - 5
+        );
+      });
+
+      ctx.fillStyle = "#111827";
+      ctx.font = "14px Arial";
+      ctx.fillText("Plano Utuh", planoX, planoY - 16);
+
+      ctx.fillStyle = "#2563eb";
+      ctx.font = "13px Arial";
+      ctx.fillText("Area Efektif Setelah Margin", efektifX, efektifY - 8);
+
+      ctx.fillStyle = "#111827";
+      ctx.font = "13px Arial";
+      ctx.fillText(
+        `Total ${data.terbaik.totalPotong} potong | ${ringkasKomposisi(data.terbaik)} | Waste Total ${formatAngka(data.terbaik.persenSisaTotal)}%`,
+        planoX,
+        planoY + planoH + 28
+      );
+    }
+
+    updateEmptyHint();
+    hitungOptimasi();
+  </script>
+</body>
+</html>
