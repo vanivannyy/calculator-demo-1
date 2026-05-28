@@ -369,18 +369,18 @@
     <div class="form-grid">
       <div class="form-group">
         <label>Metode Harga Kertas</label>
-        <select id="metodeHargaKertas">
+        <select id="metodeHargaKertas" onchange="toggleMetodeHargaKertas()">
           <option value="rim">Per Rim</option>
           <option value="kg" selected>Per Kg</option>
         </select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" id="groupHargaRim">
         <label>Harga Kertas per Rim</label>
         <input type="number" id="hargaKertasRim" value="0" step="1">
       </div>
 
-      <div class="form-group">
+      <div class="form-group" id="groupHargaKg">
         <label>Harga Kertas per Kg</label>
         <input type="number" id="hargaPerKg" value="12700" step="1">
       </div>
@@ -1051,6 +1051,20 @@
       return { items, total };
     }
 
+    function toggleMetodeHargaKertas() {
+      const metode = document.getElementById("metodeHargaKertas").value;
+      const groupRim = document.getElementById("groupHargaRim");
+      const groupKg = document.getElementById("groupHargaKg");
+
+      if (metode === "rim") {
+        groupRim.style.display = "";
+        groupKg.style.display = "none";
+      } else {
+        groupRim.style.display = "none";
+        groupKg.style.display = "";
+      }
+    }
+
     function hitungBiayaPelat(params) {
       const jumlahWarna = params.jumlahWarna;
       const jumlahDesain = params.jumlahDesain;
@@ -1714,6 +1728,7 @@
       );
     }
 
+    toggleMetodeHargaKertas();
     updateEmptyHint();
     hitungOptimasi();
   </script>
